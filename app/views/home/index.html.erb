@@ -1,0 +1,37 @@
+<div>
+  <div style="line-height: 1.5">
+    <a class="btn btn-primary" href="/rewards/new">Create a new reward</a>
+  </div>
+
+  <div style="margin-top: 20px">
+    <table class="table">
+      <caption>Rewards History</caption>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th></th>
+          <th>Amount ($USD)</th>
+          <th>Recipient Name</th>
+          <th>Recipient Email</th>
+          <th>Status</th>
+          <th>Payout</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @rewards.map do |reward| %>
+          <tr>
+            <td><%= reward.id %></td>
+            <td>
+              <a href="<%= reward_path(id: reward.id) %>">view</a>
+            </td>
+            <td><%= reward.amount %></td>
+            <td><%= reward.user.name %></td>
+            <td><%= reward.user.email %></td>
+            <td><%= reward.status.upcase %></td>
+            <td><%= reward.payout.try(:catalog_product).try(:name) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

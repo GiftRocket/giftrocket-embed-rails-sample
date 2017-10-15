@@ -1,0 +1,36 @@
+@import "compass/reset/utilities";
+
+html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, a, img, strong, dl, dt, dd, ol, ul, li, form, label, q {
+ margin: 0;
+ padding: 0;
+ border: 0;
+ outline: 0;
+ font-size: 100%;
+ font-weight: normal;
+ line-height: 1;
+ vertical-align: baseline;
+}
+input, textarea {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  text-outline: 0;
+}
+table {
+  @include reset-table;
+}
+th, td {
+  @include reset-table-cell;
+}
+b, strong {
+  font-weight: bold;
+}
+ol, ul { list-style-type: none; }
+q {
+  quotes: "" "";
+  text-indent: 0;
+  &:before, &:after {
+    content: "";
+  }
+}

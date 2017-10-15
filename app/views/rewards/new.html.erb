@@ -1,0 +1,62 @@
+<div class="center" style="margin-top: 60px">
+  <h2>
+    thank you!
+  </h2>
+
+  <p style="line-height: 1.5">
+    Your funds are ready. <br /> This is a demo of GiftRocket Embed.
+  </p>
+
+  <div style="margin-top: 20px">
+    <button style="margin-bottom: 20px;" class="btn btn-primary" id="launchpad">
+      Claim $50
+    </button>
+
+    <div class="label--launch"><i>Launches the embedded module</i></div>
+  </div>
+</div>
+
+<%= javascript_include_tag "https://cdn.giftrocket.com/embed/v1/sdk.js" %>
+
+<script type="text/javascript">
+
+function redeem() {
+  var reward = Reward("<%= @public_key %>", Reward.env.SANDBOX);
+
+  var request = function (method, url, data, cbk) {
+    return $.ajax({
+      method: method,
+      url: url,
+      data: data
+    }).done(cbk);
+  };
+
+  reward.redeem(
+    "<%= @token.html_safe %>",
+    {
+      config: {
+        catalog: <%= @catalog.to_json.html_safe %>
+      },
+      onLoad: function(config) {
+        console.log("It loaded!");
+      },
+      onExit: function() {
+        console.log("Please come back");
+      },
+      onError: function(err) {
+        // request("POST", "/rewards/error", err);
+      },
+      onSuccess: function(result) {
+        request("PUT", "/rewards/<%= @reward.id %>", {giftrocket_id: result.id}, function(response) {
+            // In a real app, we would validate the response.
+            window.location = "/";
+          }
+        );
+      }
+    }
+  );
+}
+
+$("#launchpad").on("click", redeem);
+
+</script>

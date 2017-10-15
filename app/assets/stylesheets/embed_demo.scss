@@ -1,0 +1,132 @@
+@import "reset";
+@import "compass/css3";
+@import "compass/utilities";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica neue", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  color: #315579;
+  letter-spacing: -.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  background: #f6f6f6;
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+    background-color: #155698;
+    @include background(linear-gradient(141deg, #155698 0%, #3794f2 51%, #60b4d3 75%));
+  }
+
+}
+
+.brand {
+  margin: 0 0 36px 0;
+  font-weight: 700;
+  font-size: 18px;
+  text-shadow: 1px 1px 1px #fff;
+}
+
+.container {
+  width: 100%;
+  padding: 40px 20px;
+  position: relative;
+  margin: 0;
+}
+
+a:hover {
+  background: rgba(73, 159, 203, 0.24);
+  border-bottom: none;
+  @include transition(background 0.05s, border-bottom 0.05s);
+}
+
+a, p, div {
+  color: gray;
+}
+
+p {
+  font-size: 16px;
+  color: rgba(100, 100, 100, .8);
+  line-height: 1.7;
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+
+.center {
+  text-align: center;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: 800;
+  font-style: normal;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: #00237e;
+  font-size: 24px;
+  letter-spacing: 0.07em;
+}
+
+.btn--primary {
+  display: inline-block;
+  width: auto;
+  min-width: 200px;
+  text-align: center;
+  background-color: #155698;
+  color: #fff;
+
+  @include border-radius(5px);
+  border: solid 1px #155698;
+  cursor: pointer;
+  padding: 17px 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.button-primary:hover {
+  background: #2A5A74;
+  color: #fff;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: all, 200ms;
+  -moz-transition: all, 200ms;
+  -o-transition: all, 200ms;
+  transition: all, 200ms;
+}
+
+@media (max-width: 670px) {
+  .container {
+    width: 100%;
+  }
+
+  .panel {
+    padding: 30px 20px;
+  }
+
+  h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  h1 {
+    font-size: 0.8em;
+    display: block;
+    line-height: 0;
+  }
+}

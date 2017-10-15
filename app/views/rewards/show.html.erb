@@ -1,0 +1,50 @@
+<div class="center">
+  <div>
+    You've already redeemed this reward.
+  </div>
+
+  <div style="margin-top: 20px">
+    <button style="margin-bottom: 20px;" class="btn btn-primary" id="launchpad">
+      View Details
+    </button>
+
+    <div class="label--launch"><i>Launches the embedded module</i></div>
+  </div>
+</div>
+
+<%= javascript_include_tag "https://cdn.giftrocket.com/embed/v1/sdk.js" %>
+
+<%= javascript_include_tag "https://cdn.giftrocket.com/embed/v1/sdk.js" %>
+
+<script type="text/javascript">
+
+function redeem() {
+  var reward = Reward("<%= @public_key %>", Reward.env.SANDBOX);
+
+  var request = function (method, url, data, cbk) {
+    return $.ajax({
+      method: method,
+      url: url,
+      data: data
+    }).done(cbk);
+  };
+
+  reward.redeem(
+    "<%= @token.html_safe %>",
+    {
+      onLoad: function(config) {
+        console.log("It loaded!");
+      },
+      onExit: function() {
+        console.log("Please come back");
+      },
+      onError: function(err) {
+        // request("POST", "/rewards/error", err);
+      },
+    }
+  );
+}
+
+$("#launchpad").on("click", redeem);
+
+</script>
