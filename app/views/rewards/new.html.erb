@@ -35,7 +35,7 @@ function redeem() {
     "<%= @token.html_safe %>",
     {
       config: {
-        catalog: <%= @catalog.to_json.html_safe %>
+        // catalog: <%= @catalog.to_json.html_safe %>
       },
       onLoad: function(config) {
         console.log("It loaded!");
@@ -49,7 +49,7 @@ function redeem() {
       onSuccess: function(result) {
         request("PUT", "/rewards/<%= @reward.id %>", {giftrocket_id: result.id}, function(response) {
             // In a real app, we would validate the response.
-            window.location = "/";
+            // window.location = "/";
           }
         );
       }
