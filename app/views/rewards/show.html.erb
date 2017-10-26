@@ -16,8 +16,9 @@
 
 <script type="text/javascript">
 
+var reward = Reward("<%= @public_key %>", Reward.env.PRODUCTION);
+
 function redeem() {
-  var reward = Reward("<%= @public_key %>", Reward.env.SANDBOX);
 
   var request = function (method, url, data, cbk) {
     return $.ajax({

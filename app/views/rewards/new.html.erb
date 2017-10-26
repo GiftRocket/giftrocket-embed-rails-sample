@@ -20,43 +20,43 @@
 
 <script type="text/javascript">
 
-function redeem() {
-  var reward = Reward("<%= @public_key %>", Reward.env.SANDBOX);
+  var reward = Reward("<%= @public_key %>", Reward.env.PRODUCTION);
 
-  var request = function (method, url, data, cbk) {
-    return $.ajax({
-      method: method,
-      url: url,
-      data: data
-    }).done(cbk);
-  };
+  function redeem() {
+    var request = function (method, url, data, cbk) {
+      return $.ajax({
+        method: method,
+        url: url,
+        data: data
+      }).done(cbk);
+    };
 
-  reward.redeem(
-    "<%= @token.html_safe %>",
-    {
-      config: {
-        // catalog: <%= @catalog.to_json.html_safe %>
-      },
-      onLoad: function(config) {
-        console.log("It loaded!");
-      },
-      onExit: function() {
-        console.log("Please come back");
-      },
-      onError: function(err) {
-        // request("POST", "/rewards/error", err);
-      },
-      onSuccess: function(result) {
-        request("PUT", "/rewards/<%= @reward.id %>", {giftrocket_id: result.id}, function(response) {
-            // In a real app, we would validate the response.
-            // window.location = "/";
-          }
-        );
+    reward.redeem(
+      "<%= @token.html_safe %>",
+      {
+        config: {
+          // catalog: <%= @catalog.to_json.html_safe %>
+        },
+        onLoad: function(config) {
+          console.log("It loaded!");
+        },
+        onExit: function() {
+          console.log("Please come back");
+        },
+        onError: function(err) {
+          // request("POST", "/rewards/error", err);
+        },
+        onSuccess: function(result) {
+          request("PUT", "/rewards/<%= @reward.id %>", {giftrocket_id: result.id}, function(response) {
+              // In a real app, we would validate the response.
+              // window.location = "/";
+            }
+          );
+        }
       }
-    }
-  );
-}
+    );
+  }
 
-$("#launchpad").on("click", redeem);
+  $("#launchpad").on("click", redeem);
 
 </script>
