@@ -16,11 +16,11 @@
   </div>
 </div>
 
-<%= javascript_include_tag "https://cdn.giftrocket.com/embed/v1.1.0/sdk.js" %>
+<%= javascript_include_tag "https://cdn.giftrocket.com/embed/v1.2.0/client.js" %>
 
 <script type="text/javascript">
 
-  var reward = Reward("<%= @public_key %>", Reward.env.PRODUCTION);
+  var reward = Reward("<%= @public_key %>", Reward.env.SANDBOX);
 
   function redeem() {
     var request = function (method, url, data, cbk) {
