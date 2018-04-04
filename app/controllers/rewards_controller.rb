@@ -1,21 +1,35 @@
 class RewardsController < ApplicationController
 
   def new
-    @reward = reward = new_reward
+    @reward = create_new_reward!
+
+    # Either specifically set the catalog for
+    # your recipients or enable all payout options for that currency.
     @catalog = CatalogProduct.all.select do |item|
       ["MERCHANT_CARDS", "VISA"].include?(item.category)
     end.map(&:giftrocket_id)
-    shared_view_variables(reward)
+
+    # The public key is passed to the Reward js initializer.
+    # It is used in conjunction with the private key to decode the JWT.
+    @public_key = GIFTROCKET_EMBED_PUBLIC_KEY
+
+    # The reward data (amount, currency, external_id, etc.) is encrypted
+    # with GiftRocket API private key and only readable using that same key.
+    @token = tokenize_reward_configuration(@reward)
   end
 
   def show
-    @reward = reward = Reward.find_by_id(params[:id])
-    raise ActionController::RoutingError.new('Not Found') unless reward.present?
+    @reward = Reward.find_by_id(params[:id])
+    raise ActionController::RoutingError.new('Not Found') unless @reward.present?
 
-    shared_view_variables(reward)
+    @public_key = GIFTROCKET_EMBED_PUBLIC_KEY
+    @token = tokenize_reward_configuration(@reward)
   end
 
   def update
+    # After the reward is created via the javascript SDK,
+    # we hit this endpoint with the ID from our system
+    # to eventually retrieve the full reward data from the GiftRocket REST API.
     reward = Reward.find_by_id(params[:id])
     if reward.blank?
       logger.error("Attempt to re-redeem reward :: #{params[:id]}")
@@ -59,14 +73,14 @@ class RewardsController < ApplicationController
   end
 
   def webhook
-    # TODO: handle this in an asynchronous worker if possible
+    # This should be handled in an asynchronous worker if possible
     # so that we can respond to the webhook quickly.
     Webhook.handle(params)
     render status: 200, json: {}
   end
 
   private
-    def new_reward
+    def create_new_reward!
       # For demo purposes, we create a new reward each time we render the page.
       # This is more convenient than running a rake task to generate new model instances.
       user = User.find_or_create_by({
@@ -88,10 +102,10 @@ class RewardsController < ApplicationController
       end
     end
 
-    def shared_view_variables(reward)
-      @public_key = GIFTROCKET_EMBED_PUBLIC_KEY
-      @token = Giftrocket::Embed.tokenize({
+    def tokenize_reward_configuration(reward)
+      Giftrocket::Embed.tokenize({
         amount: reward.amount,
+        currency_code: "USD",
         external_id: reward.public_token,
         recipient: {
           email: reward.user.email,

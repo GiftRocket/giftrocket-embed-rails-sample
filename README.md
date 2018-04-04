@@ -1,8 +1,7 @@
 ### GiftRocket Embed Rails Sample App
 -----
 
-This is a simple implementation of the GiftRocket Embed module within a sample Rails application.
-The intention here is to allow a Rails developer kick start their integration.
+This is a sample implementation of the GiftRocket Embed module within a Rails application.
 
 [View the demo here](https://www.giftrocket.com/rewards/embed/demo)
 
@@ -14,7 +13,7 @@ Within your account [API settings page](https://www.giftrocket.com/rewards/dashb
 
 ### Configuration
 
-Add a .env file within this project's root with the follow envvars:
+Add an .env file within this project's root with the follow envvars:
 
 ```
 GIFTROCKET_REST_API_HOST=https://testflight.giftrocket.com/api/v1/
@@ -35,8 +34,13 @@ rake catalog_update
 `rails s`
 
 
+### Getting Started
+
+The heart of the integration is located in a combination of `rewards_controller.rb` and the associated rewards views.
+
+At a high level, most of the reward data (amount, currency, etc.) is encrypted on the back-end as a [JWT](https://jwt.io/). The JWT is passed to the embed client SDK to create a reward from the client (see `new.html.erb` for an example).
+
 ### Additional Documentation
 
 The Embed client documentation can be found [here](https://github.com/GiftRocket/embed)
-
 The API REST documentation can be found [here](https://www.giftrocket.com/docs)

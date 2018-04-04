@@ -10,7 +10,6 @@ module Webhook
     when "gift.REDEEMED"
       self.on_redeemed(body[:payload])
     when "gift.PAYOUT_CANCELED"
-      byebug
       self.on_payout_canceled(body[:payload])
     when "gift.PAYOUT_FAILED"
       self.on_payout_failed(body[:payload])
